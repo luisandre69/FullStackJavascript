@@ -1,6 +1,5 @@
-import React, {
-    Component
-} from 'react';
+import React, {Component} from 'react';
+import HighScore from './HighScore';
 
 class Application extends Component {
 
@@ -17,21 +16,29 @@ class Application extends Component {
     }
 
     componentDidUpdate(props, state){
-        if(this.state.count > 10 && this.state.count != state.count  && !this.state.overTen){
+        if(this.state.count > 10 && this.state.count !== state.count  && !this.state.overTen){
             console.log("Updating over 10");
             this.setState({overTen: true});
         }
     }
+
+    resetCount = (e) => {
+        this.setState({
+            count: 0,
+            overTen: false
+        });
+    }
+
     render() {
         let {count} = this.state;
         let name = "Luis";
         return ( 
             <div>
                 <h1>{name} clicked the button {count} times</h1>
-                {(this.state.overTen) ?
-                    <h3>Beat high score of 10!</h3>
-                    : null
-                }
+                <HighScore 
+                    overTen = {this.state.overTen}
+                    onReset = {this.resetCount} 
+                />
                 <span>
                     <button onClick={() => this.handleClick()}>Click Me</button>
                 </span>
